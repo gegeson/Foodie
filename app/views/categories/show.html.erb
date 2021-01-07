@@ -1,0 +1,57 @@
+<%= stylesheet_link_tag "category_show", :media => "all" %>
+
+<div class="container mt-3">
+    <%# 検索 %>
+    <form class="form-inline my-2 my-lg-4 ">
+        <%= form_tag({controller:"posts",action:"index"}, method: :get) do %>
+        <%= text_field_tag :search, "検索", {class:"form-control mr-sm-2"} %>
+        <%= submit_tag '検索する', {class:"btn btn-outline-success my-2 my-sm-0"} %>
+        <% end %>  
+    </form>
+    
+    <div class="row">
+        <div class="card col-md-3" style="width: 200px">
+            <% @categories.each do |c| %>
+            <%= link_to c.name, category_path(c.id), class:"category_list" %>
+            <% end %>
+        </div>
+        <div class="col-md-9">
+            <% @category.posts.each do |post| %>
+                <div class="card">
+                    <h5 class="card-title"><%= link_to post.user.name, user_path(post.user.id) %></h5>
+                    <%= image_tag post.image_url, class:"card-img-top", size: '500×320' %>
+                    <div class="card-body">
+                    <h5 class="card-title"><%= post.store_name %></h5>
+                    <div class="badge badge-pill badge-dark">
+                        <% post.categories.each do |category| %>
+                            <%= category.name %>
+                        <% end %>
+                    </div>
+                    <p class="card-text">
+                        <div id="star-rate-<%= post.id %>"></div>
+                        <script>
+                            $('#star-rate-<%= post.id %>').raty({
+                            size: 36,
+                            starOff:  '<%= asset_path('star-off.png') %>',
+                            starOn : '<%= asset_path('star-on.png') %>',
+                            starHalf: '<%= asset_path('star-half.png') %>',
+                            half: true,
+                            readOnly: true,
+                            score: <%= post.average %>,
+                            });
+                        </script>
+                    <div class="fas fa-heart" style="color: Pink;"></div><%= post.liked_users.count %>
+                    </p>
+                    <% if post.user.id == current_user.id %>
+                        <button type="button" class="btn btn-outline-secondary"><%= link_to '詳細', post %></button>
+                        <button type="button" class="btn btn-outline-secondary"><%= link_to '編集', edit_post_path(post) %></button>
+                        <button type="button" class="btn btn-outline-secondary"><%= link_to '消去', post, method: :delete, data: { confirm: '消去しますか?' } %></button>
+                    <% else %>
+                        <button type="button" class="btn btn-outline-secondary"><%= link_to '詳細へ', post %></button>
+                    <% end %>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</div>

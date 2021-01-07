@@ -1,0 +1,66 @@
+<%= stylesheet_link_tag "index", :media => "all" %>
+
+<div class="container">
+  <%# 検索 %>
+  <form class="form-inline my-2 my-lg-4 ">
+    <%= form_tag({controller:"posts",action:"index"}, method: :get) do %>
+      <%= text_field_tag :search, "", {class:"form-control mr-sm-2"} %>
+      <%= submit_tag '検索する', {class:"btn btn-outline-success my-2 my-sm-0"} %>
+    <% end %>  
+  </form>
+
+  <div class="row">
+    <%# カテゴリ― %>
+    <div class="card col-md-3" style="width: 200px">
+      <% @category.each do |c| %>
+      <%= link_to c.name, category_path(c.id), class:"category_list" %>
+      <% end %>
+    </div>
+
+    <%# 投稿 %>
+    <div class="col-md-9">
+      <% @posts.each do |post| %>
+        <div class="card">
+          <h5 class="card-title"><%= link_to post.user.name, user_path(post.user.id) %></h5>
+          <%= image_tag post.image_url, class:"card-img-top", size: '500×320' %>
+          <div class="card-body">
+            <h5 class="card-title"><%= post.store_name %></h5>
+            <div class="badge badge-pill badge-dark">
+              <% post.categories.each do |category| %>
+                <%= category.name %>
+              <% end %>
+            </div>
+            <p class="card-text">
+              <span id="star-rate-<%= post.id %>"></span> | <%= post.average_check %>
+                <script>
+                  $('#star-rate-<%= post.id %>').raty({
+                    size: 36,
+                    starOff:  '<%= asset_path('star-off.png') %>',
+                    starOn : '<%= asset_path('star-on.png') %>',
+                    starHalf: '<%= asset_path('star-half.png') %>',
+                    half: true,
+                    readOnly: true,
+                    score: <%= post.average %>,
+                  });
+                </script>
+              <div class="fas fa-heart" style="color: Pink;"></div><%= post.liked_users.count %>
+            </p>
+            <% if post.user.id == current_user.id %>
+            <div class="row">
+              <div class="m-1"><%= link_to '詳細', post, class:"btn btn-outline-dark" %></div>
+              <div class="m-1"><%= link_to '編集', edit_post_path(post), class:"btn btn-outline-dark" %></div>
+              <div class="m-1"><%= link_to '消去', post, method: :delete, data: { confirm: '消去しますか?' }, class:"btn btn-outline-dark" %></div>
+            </div>
+            <% else %>
+              <button type="button" class="btn btn-outline-secondary"><%= link_to '詳細へ', post %></button>
+            <% end %>
+            <p class="text-right"><%= post.updated_at.strftime("%m月%d日 %H:%M") %></p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+

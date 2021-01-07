@@ -1,0 +1,55 @@
+.header {
+    display: none;
+}
+.parallax {
+    min-height: 700px;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+.content {
+    padding: 60px;
+    background-color: #fff;
+}
+.parallax.bg-01 {
+    background-image: url(/assets/tops2.jpg);
+}
+.parallax.bg-02 {
+    background-image: url(/assets/tops1.jpg);
+}
+.text-1 {
+    color: whitesmoke;
+    font-size: 30px;
+    font-weight: bold;
+}
+.text-2 {
+    color: whitesmoke;
+    font-size: 150px;
+    font-weight: bold;
+    font-family: "Broadway";
+}
+.text-3 {
+    color: rgb(100, 97, 97);
+    font-size: 50px;
+    font-weight: bold;
+}
+.text-4 {
+    color: rgb(100, 97, 97);
+    font-size: 20px;
+}
+.text-5 {
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+}
+.nav-item {
+    font-weight: bold;
+    font-size: 18px;
+}
+.nav-item:hover {
+    border-bottom: solid ;
+}
+a:hover {
+    color: black;
+}

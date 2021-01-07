@@ -1,0 +1,42 @@
+<%= stylesheet_link_tag 'top_index', media: 'all' %>
+
+
+<div class="wrap">
+    <div class="parallax bg-01 d-flex justify-content-center">
+        <nav class="fixed-top d-flex justify-content-end">
+            <ul class="nav">
+                <li class="nav-item"><%= link_to "Sign Up", new_user_registration_path, class:"nav-link" %></li>
+                <li class="nav-item"><%= link_to "Sign In", new_user_session_path, class:"nav-link" %></li>
+            </ul>
+        </nav>
+        <div class="align-self-center">
+            <p class="text-1 text-center pt-5">you are</p>
+            <p class="text-2 text-center">Foodie</p>
+        </div>
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <p class=" text-3 text-center">About site</p>
+                <p class="text-4 text-center">
+                え、あの人が行ってる店おしゃれ！料理美味しそう！を知りたい人のためのサイトです。<br>
+                あなたのおすすめの店を５つの項目でガチ評価して投稿しよう！
+                </p>
+                <div class="row">
+                    <div class="col">
+                    </div>
+                    <div class="col"></div>
+                    <div class="col"></div>
+                    <div class="col"></div>
+                    <div class="col"></div>
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
+    <div class="parallax bg-02 d-flex justify-content-center">
+        <p class="text-5 text-center align-self-center">あなたもFoodieの調査員として厳しく評価を
+        </p>
+    </div>
+</div>

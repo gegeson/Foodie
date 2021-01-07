@@ -1,0 +1,50 @@
+<%= stylesheet_link_tag "user_show", :media => "all" %>
+
+<div class="container">
+    <div class="row plofile">
+        <div class="col"></div>
+        <div class="col">
+            <p><%= image_tag @user.image_url, class: "photo" %></p>
+            <p>Name : <%= @user.name %></p>
+            <p>Mail address : <%= @user.email %></p>
+            <p>
+                <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class:"btn btn-outline-dark" %>
+                <%= link_to "編集する", edit_user_registration_path(@user.id), class:"btn btn-outline-dark" %>
+            </p>
+        </div>
+        <div class="col"></div>
+    </div>
+    
+    
+    <%# 過去の投稿 %>
+    <div class="row row-cards-3">
+        <% @posts.each do |post|%>
+            <div class="card m-auto" style="width: 18rem;" >
+                <%= image_tag post.image_url, {class:"card-img-top img"} %>
+                <div class="card-body">
+                    <h5 class="card-title"><%= post.store_name %></h5>
+                    <p class="card-text">
+                        <div id="star-rate-<%= post.id %>"></div>
+                        <script>
+                            $('#star-rate-<%= post.id %>').raty({
+                                size: 36,
+                                starOff:  '<%= asset_path('star-off.png') %>',
+                                starOn : '<%= asset_path('star-on.png') %>',
+                                starHalf: '<%= asset_path('star-half.png') %>',
+                                half: true,
+                                readOnly: true,
+                                score: <%= post.average %>,
+                            });
+                        </script>
+                        <span class="fas fa-heart" style="color: Pink;"></span><%= post.liked_users.count %>
+                    </p>
+                    <div>
+                        <%= link_to '詳細', post , class:"btn btn-outline-dark"%>
+                        <%= link_to '編集', edit_post_path(post), class:"btn btn-outline-dark" %>
+                        <%= link_to '消去', post, method: :delete, data: { confirm: '消去しますか?' }, class:"btn btn-outline-dark" %>
+                    </div>
+                </div>
+            </div>
+        <% end %>
+    </div>
+</div>

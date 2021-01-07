@@ -1,0 +1,183 @@
+
+<div class="container mt-3">
+  <div class="col-5">
+    <%= image_tag @post.image_url, size:'500×320' %>
+  </div>
+  <div class="row">
+    <strong class='col-md-3 col-form-label'>Name:</strong>
+    <div class="col-md-9">
+      <%= @post.user.name %>
+    </div>
+  </div>
+
+  <div class="row">
+    <strong class='col-md-3 col-form-label'>Store name:</strong>
+    <div class="col-md-9">
+      <%= @post.store_name %>
+    </div>
+  </div>
+
+  <div class="row">
+    <strong class='col-md-3 col-form-label'>Review:</strong>
+    <div class="col-md-9">
+      <%= @post.review %>
+    </div>
+  </div>
+
+  <div class="row">
+    <strong class="col-md-3 col-form-label">Taste:</strong>
+    <div class="col-md-9" id="star-rate-1">
+      <script>
+        $('#star-rate-1').raty({
+          size: 36,
+          starOff:  '<%= asset_path('star-off.png') %>',
+          starOn : '<%= asset_path('star-on.png') %>',
+          starHalf: '<%= asset_path('star-half.png') %>',
+          half: true,
+          readOnly: true,
+          score: <%= @post.taste %>,
+        });
+      </script>
+    </div>
+  </div>
+  
+  <div class="row">
+    <strong class="col-md-3 col-form-label">Service:</strong>
+    <div class="col-md-9" id="star-rate-2">
+      <script>
+        $('#star-rate-2').raty({
+          size: 36,
+          starOff:  '<%= asset_path('star-off.png') %>',
+          starOn : '<%= asset_path('star-on.png') %>',
+          starHalf: '<%= asset_path('star-half.png') %>',
+          half: true,
+          readOnly: true,
+          score: <%= @post.service %>,
+        });
+      </script>
+    </div>
+  </div>
+
+  <div class="row">
+    <strong class="col-md-3 col-form-label">Cost:</strong>
+    <div class="col-md-9" id="star-rate-3">
+      <script>
+        $('#star-rate-3').raty({
+          size: 36,
+          starOff:  '<%= asset_path('star-off.png') %>',
+          starOn : '<%= asset_path('star-on.png') %>',
+          starHalf: '<%= asset_path('star-half.png') %>',
+          half: true,
+          readOnly: true,
+          score: <%= @post.cost %>,
+        });
+      </script>
+    </div>
+  </div>
+
+  <div class="row">
+    <strong class="col-md-3 col-form-label">Atmosphere:</strong>
+    <div class="col-md-9" id="star-rate-4">
+      <script>
+        $('#star-rate-4').raty({
+          size: 36,
+          starOff:  '<%= asset_path('star-off.png') %>',
+          starOn : '<%= asset_path('star-on.png') %>',
+          starHalf: '<%= asset_path('star-half.png') %>',
+          half: true,
+          readOnly: true,
+          score: <%= @post.atmosphere %>,
+        });
+      </script>
+    </div>
+  </div>
+  
+  <div class="row">
+    <strong class="col-md-3 col-form-label">Access:</strong>
+    <div class="col-md-9" id="star-rate-5">
+      <script>
+        $('#star-rate-5').raty({
+          size: 36,
+          starOff:  '<%= asset_path('star-off.png') %>',
+          starOn : '<%= asset_path('star-on.png') %>',
+          starHalf: '<%= asset_path('star-half.png') %>',
+          half: true,
+          readOnly: true,
+          score: <%= @post.access %>,
+        });
+      </script>
+    </div>
+  </div>
+
+  <div class="row">
+    <strong class="col-md-3 col-form-label">Average:</strong>
+    <div class="col-md-9" id="star-rate">
+      <script>
+        $('#star-rate').raty({
+          size: 36,
+          starOff:  '<%= asset_path('star-off.png') %>',
+          starOn : '<%= asset_path('star-on.png') %>',
+          starHalf: '<%= asset_path('star-half.png') %>',
+          half: true,
+          readOnly: true,
+          score: <%= @post.average %>,
+        });
+      </script>
+    </div>
+  </div>
+
+  <div class="badge badge-pill badge-dark">
+    <% @post.categories.each do |category| %>
+      <%= category.name %>
+    <% end %>
+  </div>
+
+  <div class="row">
+    <strong class="col-md-3 col-form-label">like count:</strong>
+    <div class="col-md-3 col-form-label"><%= @post.likes.count %></div>
+  </div>
+  <div>
+    <% if current_user.already_liked?(@post) %>
+      <%= button_to 'いいねを取り消す', post_like_path(@post), method: :delete, class:"btn btn-outline-dark" %>
+    <% else %>
+      <%= button_to 'いいね', post_likes_path(@post), class:"btn btn-outline-dark" %>
+    <% end %>
+  </div>
+
+  <div class="row">
+    <strong class="col-md-3 col-form-label">like user</strong>
+    <% @post.liked_users.each do |user| %>
+      <li class="col-md-9 col-form-label"><%= user.name %></li>
+    <% end %>
+  </div>
+
+  <div class="comment-wrapper">
+    <strong>コメント一覧</strong>
+    <% @comments.each do |c| %>
+      <div class="row">
+        <strong class="col-md-3 col-form-label">
+        <%= c.user.name unless c.user.blank? %>
+        </strong>
+        <div class="col-md-9">
+          <%= c.comment %>
+        </div>
+      </div>
+    <% end %>
+
+    <% if user_signed_in? %>
+      <%= form_with(model: [@post, @comment], local: true) do |f| %>
+        <div class="form-group row">
+          <%= f.text_area :comment, class: "form-control", rows: "8" %>
+          <%= button_tag type: "submit", class:"btn btn-success mt-2" do %>
+            <i class="far fa-comments"></i> コメントする
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="mb-5">
+    <%= link_to '編集', edit_post_path(@post), class:"btn btn-outline-dark" %>
+    <%= link_to "ホーム", posts_path, class:"btn btn-outline-dark" %>
+  </div>
+</div>

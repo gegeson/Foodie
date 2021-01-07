@@ -1,0 +1,138 @@
+
+
+<div class="container mt-5">
+  <%= form_with(model: post, local: true) do |form| %>
+    <% if post.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+        <ul>
+          <% post.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    
+    <%# 画像 %>
+    <div class="form-group row">
+      <%= form.label :image, class:'col-md-3 col-form-label' %>
+      <div class="col-md-9">
+        <%= form.file_field :image %>
+      </div>
+    </div>
+
+    <%# 店の名前 %>
+    <div class="form-group row">
+      <%= form.label :store_name, class:'col-md-3 col-form-label' %>
+      <div class="col-md-9">
+        <%= form.text_field :store_name, class: "form-control" %>
+      </div>
+    </div>
+
+    <%# テキスト %>
+    <div class="form-group row">
+      <%= form.label :review, class:'col-md-3 col-form-label' %>
+      <div class="col-md-9">
+        <%= form.text_area :review, class: "form-control", rows: "8" %>
+      </div>
+    </div>
+
+    
+    <%# 評価 %>
+    <div class="form-group" id="star1">
+      <%= form.label :taste, class:'col-md-3 col-form-label' %>
+      <%= form.hidden_field :taste, id: :review_star %>
+    </div>
+
+    <div class="form-group" id="star2">
+      <%= form.label :service, class:'col-md-3 col-form-label' %>
+      <%= form.hidden_field :service, id: :review_star %>
+    </div>
+
+    <div class="form-group" id="star3">
+      <%= form.label :cost, class:'col-md-3 col-form-label' %>
+      <%= form.hidden_field :cost, id: :review_star %>
+    </div>
+
+    <div class="form-group" id="star4">
+      <%= form.label :atmosphere, class:'col-md-3 col-form-label' %>
+      <%= form.hidden_field :atmosphere, id: :review_star %>
+    </div>
+
+    <div class="form-group" id="star5">
+      <%= form.label :access, class:'col-md-3 col-form-label' %>
+      <%= form.hidden_field :access, id: :review_star %>
+    </div>
+
+    <%# 評価javascript %>
+    <script>
+      $('#star1').raty({
+        size     : 36,
+        starOff:  '<%= asset_path('star-off.png') %>',
+        starOn : '<%= asset_path('star-on.png') %>',
+        starHalf: '<%= asset_path('star-half.png') %>',
+        scoreName: 'post[taste]',
+      });
+    </script> 
+
+     <script>
+      $('#star2').raty({
+        size     : 45,
+        starOff:  '<%= asset_path('star-off.png') %>',
+        starOn : '<%= asset_path('star-on.png') %>',
+        starHalf: '<%= asset_path('star-half.png') %>',
+        scoreName: 'post[service]',
+      });
+    </script> 
+
+    <script>
+      $('#star3').raty({
+        size     : 45,
+        starOff:  '<%= asset_path('star-off.png') %>',
+        starOn : '<%= asset_path('star-on.png') %>',
+        starHalf: '<%= asset_path('star-half.png') %>',
+        scoreName: 'post[cost]',
+      });
+    </script> 
+
+    <script>
+      $('#star4').raty({
+        size     : 45,
+        starOff:  '<%= asset_path('star-off.png') %>',
+        starOn : '<%= asset_path('star-on.png') %>',
+        starHalf: '<%= asset_path('star-half.png') %>',
+        scoreName: 'post[atmosphere]',
+      });
+    </script> 
+
+    <script>
+      $('#star5').raty({
+        size     : 45,
+        starOff:  '<%= asset_path('star-off.png') %>',
+        starOn : '<%= asset_path('star-on.png') %>',
+        starHalf: '<%= asset_path('star-half.png') %>',
+        scoreName: 'post[access]',
+      });
+    </script> 
+
+    <%# カテゴリー %>
+    <div class="form-group row">
+      <div class="col-md-9">
+        <%= form.collection_check_boxes(:category_ids, Category.all, :id, :name) %>
+      </div>
+    </div>
+    
+
+
+    <%# ボタン %>
+    <div class="form-group row justify-content-end">
+      <div class="col-md-9">
+        <%= form.submit '投稿する', class:"btn btn-success" %>
+      </div>
+    </div>
+
+  <% end %>
+</div>
+
+ 
